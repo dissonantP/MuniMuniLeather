@@ -1,4 +1,10 @@
-# React + Vite
+# Muni Muni Leather
+
+Minimal React/Vite landing page for Muni Muni Leather.
+
+This README line was updated during the GitHub webhook end-to-end sync test.
+
+## Development
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
