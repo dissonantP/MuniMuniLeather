@@ -1,0 +1,21 @@
+{
+  "name": "@munimuni/commerce",
+  "private": true,
+  "scripts": {
+    "dev": "medusa develop",
+    "build": "medusa build",
+    "start": "medusa start"
+  },
+  "dependencies": {
+    "@medusajs/admin-sdk": "latest",
+    "@medusajs/cli": "latest",
+    "@medusajs/framework": "latest",
+    "@medusajs/medusa": "latest",
+    "awilix": "latest",
+    "pg": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "typescript": "latest"
+  }
+}
