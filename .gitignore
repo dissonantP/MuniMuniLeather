@@ -11,6 +11,13 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+.env.*
+!.env.example
+.next
+.medusa
+media
+apps/cms/media
 
 # Editor directories and files
 .vscode/*

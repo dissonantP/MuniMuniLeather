@@ -4,6 +4,15 @@ Minimal React/Vite landing page for Muni Muni Leather.
 
 This README line was updated during the GitHub webhook end-to-end sync test.
 
+## Platform Direction
+
+The repo now includes a starter Payload CMS + Medusa commerce foundation under
+`apps/`, while keeping the current GitHub Pages landing page intact.
+
+- `apps/cms`: Payload admin for editable pages, media, and product spotlights.
+- `apps/commerce`: Medusa backend/admin for ecommerce.
+- `docs/platform.md`: local setup and deployment notes.
+
 ## Development
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

@@ -5,9 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:site": "vite",
+    "dev:cms": "npm --prefix apps/cms run dev",
+    "dev:commerce": "npm --prefix apps/commerce run dev",
     "build": "vite build",
+    "build:cms": "npm --prefix apps/cms run build",
+    "build:commerce": "npm --prefix apps/commerce run build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "stack:db": "docker compose up -d postgres",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
