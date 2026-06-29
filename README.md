@@ -13,6 +13,12 @@ The repo now includes a starter Payload CMS + Medusa commerce foundation under
 - `apps/commerce`: Medusa backend/admin for ecommerce.
 - `docs/platform.md`: local setup and deployment notes.
 
+For the first private preview behind Authelia, it is acceptable to run the Node
+apps from generic Node containers with the repo bind-mounted through Docker
+Compose. Before treating the stack as production-like, replace that with
+Compose-built local app images so installs, startup commands, and runtime
+versions are repeatable.
+
 ## Development
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
