@@ -34,6 +34,26 @@ Default local URLs:
 - Medusa admin: `http://localhost:9000/app`
 - Medusa Store API: `http://localhost:9000/store`
 
+## Private Preview
+
+The temporary Docker Compose preview uses generic `node:25-bookworm` containers
+with the repo bind-mounted. This is intentionally simple for the first
+Authelia-protected inspection pass and should be replaced with built app images
+before the stack is treated as production-like.
+
+```sh
+npm --prefix apps/cms install
+npm --prefix apps/commerce install
+docker compose up -d postgres cms commerce
+```
+
+Preview URLs:
+
+- Payload CMS: `https://munimunileather.dissonant.info/admin`
+- Payload frontend placeholder: `https://munimunileather.dissonant.info`
+- Medusa admin: `https://munimuni-commerce.dissonant.info/app`
+- Medusa Store API: `https://munimuni-commerce.dissonant.info/store`
+
 ## First Content Model
 
 Payload starts with:

@@ -1,4 +1,72 @@
 services:
+  cms:
+    image: node:25-bookworm
+    restart: unless-stopped
+    user: "1000:1000"
+    working_dir: /workspace/apps/cms
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      HOME: /tmp
+      DATABASE_URL: postgres://munimuni:munimuni@postgres:5432/munimuni_payload
+      PAYLOAD_SECRET: ${PAYLOAD_SECRET:-development-payload-secret-change-before-production}
+      NEXT_PUBLIC_SERVER_URL: https://munimunileather.dissonant.info
+    command: npm run dev:docker
+    volumes:
+      - .:/workspace
+    networks:
+      - default
+      - traefik
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: traefik
+      traefik.http.routers.munimuni-cms-http.rule: Host(`munimunileather.dissonant.info`)
+      traefik.http.routers.munimuni-cms-http.entrypoints: web
+      traefik.http.routers.munimuni-cms-http.middlewares: redirect-to-https@docker
+      traefik.http.routers.munimuni-cms-https.rule: Host(`munimunileather.dissonant.info`)
+      traefik.http.routers.munimuni-cms-https.entrypoints: websecure
+      traefik.http.routers.munimuni-cms-https.middlewares: authelia@docker
+      traefik.http.routers.munimuni-cms-https.tls: "true"
+      traefik.http.routers.munimuni-cms-https.tls.certresolver: le
+      traefik.http.services.munimuni-cms.loadbalancer.server.port: "3000"
+
+  commerce:
+    image: node:25-bookworm
+    restart: unless-stopped
+    user: "1000:1000"
+    working_dir: /workspace/apps/commerce
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      HOME: /tmp
+      DATABASE_URL: postgres://munimuni:munimuni@postgres:5432/munimuni_medusa
+      STORE_CORS: https://munimunileather.com,https://munimunileather.dissonant.info,https://munimuni-commerce.dissonant.info
+      ADMIN_CORS: https://munimuni-commerce.dissonant.info
+      AUTH_CORS: https://munimunileather.dissonant.info,https://munimuni-commerce.dissonant.info
+      __MEDUSA_ADMIN_ADDITIONAL_ALLOWED_HOSTS: munimuni-commerce.dissonant.info
+      JWT_SECRET: ${MEDUSA_JWT_SECRET:-development-medusa-jwt-secret-change-before-production}
+      COOKIE_SECRET: ${MEDUSA_COOKIE_SECRET:-development-medusa-cookie-secret-change-before-production}
+    command: npm run dev -- -H 0.0.0.0
+    volumes:
+      - .:/workspace
+    networks:
+      - default
+      - traefik
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: traefik
+      traefik.http.routers.munimuni-commerce-http.rule: Host(`munimuni-commerce.dissonant.info`)
+      traefik.http.routers.munimuni-commerce-http.entrypoints: web
+      traefik.http.routers.munimuni-commerce-http.middlewares: redirect-to-https@docker
+      traefik.http.routers.munimuni-commerce-https.rule: Host(`munimuni-commerce.dissonant.info`)
+      traefik.http.routers.munimuni-commerce-https.entrypoints: websecure
+      traefik.http.routers.munimuni-commerce-https.middlewares: authelia@docker
+      traefik.http.routers.munimuni-commerce-https.tls: "true"
+      traefik.http.routers.munimuni-commerce-https.tls.certresolver: le
+      traefik.http.services.munimuni-commerce.loadbalancer.server.port: "9000"
+
   postgres:
     image: postgres:16-alpine
     restart: unless-stopped
@@ -8,6 +76,7 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
+      - ./docker/postgres/initdb:/docker-entrypoint-initdb.d:ro
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U munimuni"]
@@ -17,3 +86,7 @@ services:
 
 volumes:
   postgres-data:
+
+networks:
+  traefik:
+    external: true
