@@ -53,7 +53,7 @@ aligning the commerce app TypeScript config with package `exports` resolution:
 
 ```sh
 npm --prefix apps/commerce install --save-dev ts-node --no-audit --no-fund --no-progress
-env DATABASE_URL=postgres://munimuni:munimuni@localhost:5432/munimuni_medusa \
+env DATABASE_URL=postgres://munimuni:dev-only-munimuni-password-change-before-use@localhost:5432/munimuni_medusa \
   JWT_SECRET=development-jwt-secret \
   COOKIE_SECRET=development-cookie-secret \
   npm --prefix apps/commerce run build
@@ -66,7 +66,7 @@ The successful build completed backend and frontend compilation.
 Payload build was started with development env values:
 
 ```sh
-env DATABASE_URL=postgres://munimuni:munimuni@localhost:5432/munimuni_payload \
+env DATABASE_URL=postgres://munimuni:dev-only-munimuni-password-change-before-use@localhost:5432/munimuni_payload \
   PAYLOAD_SECRET=development-secret \
   NEXT_PUBLIC_SERVER_URL=http://localhost:3000 \
   npm --prefix apps/cms run build
@@ -79,7 +79,7 @@ Next build process is still running and rerun the build from a clean shell.
 Medusa build was attempted with development env values:
 
 ```sh
-env DATABASE_URL=postgres://munimuni:munimuni@localhost:5432/munimuni_medusa \
+env DATABASE_URL=postgres://munimuni:dev-only-munimuni-password-change-before-use@localhost:5432/munimuni_medusa \
   JWT_SECRET=development-jwt-secret \
   COOKIE_SECRET=development-cookie-secret \
   npm --prefix apps/commerce run build

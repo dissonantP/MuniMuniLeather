@@ -9,7 +9,7 @@ services:
         condition: service_healthy
     environment:
       HOME: /tmp
-      DATABASE_URL: postgres://munimuni:munimuni@postgres:5432/munimuni_payload
+      DATABASE_URL: postgres://${MUNIMUNI_DEV_POSTGRES_USER:-munimuni}:${MUNIMUNI_DEV_POSTGRES_PASSWORD:-dev-only-munimuni-password-change-before-use}@postgres:5432/munimuni_payload
       PAYLOAD_SECRET: ${PAYLOAD_SECRET:-development-payload-secret-change-before-production}
       NEXT_PUBLIC_SERVER_URL: https://munimunileather.local.dissonant.info
     command: npm run dev:docker
@@ -39,7 +39,7 @@ services:
         condition: service_healthy
     environment:
       HOME: /tmp
-      DATABASE_URL: postgres://munimuni:munimuni@postgres:5432/munimuni_medusa
+      DATABASE_URL: postgres://${MUNIMUNI_DEV_POSTGRES_USER:-munimuni}:${MUNIMUNI_DEV_POSTGRES_PASSWORD:-dev-only-munimuni-password-change-before-use}@postgres:5432/munimuni_medusa
       STORE_CORS: https://munimunileather.com,https://munimunileather.local.dissonant.info,https://munimuni-commerce.local.dissonant.info
       ADMIN_CORS: https://munimuni-commerce.local.dissonant.info
       AUTH_CORS: https://munimunileather.local.dissonant.info,https://munimuni-commerce.local.dissonant.info
@@ -67,15 +67,15 @@ services:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_USER: munimuni
-      POSTGRES_PASSWORD: munimuni
+      POSTGRES_USER: ${MUNIMUNI_DEV_POSTGRES_USER:-munimuni}
+      POSTGRES_PASSWORD: ${MUNIMUNI_DEV_POSTGRES_PASSWORD:-dev-only-munimuni-password-change-before-use}
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
       - ./docker/postgres/initdb:/docker-entrypoint-initdb.d:ro
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U munimuni"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
       interval: 10s
       timeout: 5s
       retries: 5
